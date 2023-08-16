@@ -45,8 +45,8 @@ jobs:
       - name: Build and Push MySQL Image
         uses: docker/build-push-action@v2
         with:
-          context: ./DB
-          file: ./DB/Dockerfile
+          context: .
+          dockerfile: ./DB/Dockerfile
           push: true
           tags: docker.io/nikole647/mysql-${{ steps.commit_sha.outputs.sha }}
 
