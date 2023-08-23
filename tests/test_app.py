@@ -1,5 +1,5 @@
 
-import requests
+#import requests
 
 # def test_ping_server():
 #     # change the test
