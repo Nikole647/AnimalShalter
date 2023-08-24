@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-app
+          image: nikole647/pythonproject3-app:latest
+
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MYSQL_USER # Setting USER username on mysql From a 'Secret'
+              valueFrom:
+                secretKeyRef:
+                  name: thisissodi
+                  key: username
+            - name: MYSQL_PASSWORD # Setting USER username on mysql From a 'Secret'
+              valueFrom:
+                secretKeyRef:
+                  name: thisissodi
+                  key: password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: thisissodi
+                  key: dbname
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: thisissodi
+                  key: host
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: thisissodi
+                  key: port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+spec:
+  selector:
+    app: flask-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
+
