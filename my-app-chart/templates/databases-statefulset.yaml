@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: databases
+  name: {{.Values.database.mdname}}
 spec:
-  replicas: 1
-  serviceName: databases-service
+  replicas: {{.Values.database.replicas}}
+  serviceName: {{.Values.database.servicename}}
   selector:
     matchLabels:
-      app: databases-db
+      app: {{.Values.database.name}}
   template:
     metadata:
       labels:
-        app: databases-db
+        app: {{.Values.database.name}}
     spec:
       containers:
-        - name: databases-db
+        - name: {.Values.database.name}}
           image: nikole647/pythonproject3-db:test
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "pass1234"
+              value: {{.Values.secrets.USERPASS}}
 
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: databases-service
+  name: {{.Values.database.servicename}}
 spec:
   selector:
-    app: databases-db
+    app: {.Values.database.name}}
   ports:
     - protocol: TCP
       port: 3306

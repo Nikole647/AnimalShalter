@@ -1,48 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app-deployment
+  name: {{.Values.app.mdname}}
 spec:
-  replicas: 1
+  replicas: {{.Values.app.replicas}}
   selector:
     matchLabels:
-      app: flask-app
+      app: {{.Values.app.name}}
   template:
     metadata:
       labels:
-        app: flask-app
+        app: {{.Values.app.name}}
     spec:
       containers:
-        - name: flask-app
+        - name: {{.Values.app.name}}
           image: nikole647/pythonproject3-app:latest
 
           ports:
             - containerPort: 5000
           env:
-            - name: MYSQL_USER # Setting USER username on mysql From a 'Secret'
+            - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: thisissodi
+                  name: {{.Values.secretName}}
                   key: username
-            - name: MYSQL_PASSWORD # Setting USER username on mysql From a 'Secret'
+            - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: thisissodi
+                  name: {{.Values.secretName}}
                   key: password
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: thisissodi
+                  name: {{.Values.secretName}}
                   key: dbname
             - name: MYSQL_HOST
               valueFrom:
                 secretKeyRef:
-                  name: thisissodi
+                  name: {{.Values.secretName}}
                   key: host
             - name: MYSQL_PORT
               valueFrom:
                 secretKeyRef:
-                  name: thisissodi
+                  name: {{.Values.secretName}}
                   key: port
 ---
 apiVersion: v1
@@ -51,10 +51,10 @@ metadata:
   name: flask-app-service
 spec:
   selector:
-    app: flask-app
+    app: {{.Values.app.name}}
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
-  type: LoadBalancer
+  type: {{.Values.appservicetype}}
 
