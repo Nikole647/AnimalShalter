@@ -4,12 +4,8 @@ app:
   name: flask-app
   replicas: 1
 
-
 appservicetype: LoadBalancer
 
-#appimage:
-#   name: yonatankaplounov/application
-#   tag: final
 
 database:
   mdname: databases
@@ -17,12 +13,6 @@ database:
   replicas: 1
   servicename: databases-service
 
-
-
-
-#dbimage:
-#   name:  yonatankaplounov/appdatabase
-#   tag: final
 
 secretName: thisissodi
 

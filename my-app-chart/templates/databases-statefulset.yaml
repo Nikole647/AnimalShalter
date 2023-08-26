@@ -14,7 +14,7 @@ spec:
         app: {{.Values.database.name}}
     spec:
       containers:
-        - name: {.Values.database.name}}
+        - name: {{.Values.database.name}}
           image: nikole647/pythonproject3-db:test
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -28,7 +28,7 @@ metadata:
   name: {{.Values.database.servicename}}
 spec:
   selector:
-    app: {.Values.database.name}}
+    app: {{.Values.database.name}}
   ports:
     - protocol: TCP
       port: 3306
