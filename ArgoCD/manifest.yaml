@@ -1,0 +1,11 @@
+project: default
+source:
+  repoURL: 'https://github.com/Nikole647/AnimalShalter.git'
+  path: my-app-chart
+  targetRevision: HEAD
+  helm:
+    valueFiles:
+      - values.yaml
+destination:
+  server: 'https://kubernetes.default.svc'
+  namespace: default
