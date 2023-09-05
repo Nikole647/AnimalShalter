@@ -1,9 +1,8 @@
 name: Deploy Infrastructure and Application
 on:
   workflow_dispatch:
-  #push:
-  #branches:
-  #- main
+  push:
+    branches: [ master ]
 
 jobs:
   deploy:
@@ -37,7 +36,7 @@ jobs:
 
     - name: Configure kubectl
       # can use also var or secret so it will be easy to change
-      run: aws eks --region us-east-1 update-kubeconfig --name dsm-dev-eks
+      run: aws eks --region us-east-1 update-kubeconfig --name Animal_Shelter-dev-eks
 
     - name: Install Argo CD CLI
       run: |
@@ -48,7 +47,7 @@ jobs:
     - name: Argo CD Application Sync
       run: |
         kubectl config set-context --current --namespace=argocd
-        kubectl apply -f argo-cd/application.yaml
+        kubectl apply -f ArgoCD/manifest.yaml
         argocd app sync dsm --wait
 
     - name: Destroy Terraform Infrastructure
